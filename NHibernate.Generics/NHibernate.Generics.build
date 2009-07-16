@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding='utf-8' ?>
+<project
+	name="NHibernate.Generics"
+	default="build"
+	xmlns="http://nant.sf.net/release/0.85/nant.xsd"
+>
+	
+	<property name="root.dir" value=".." />
+	<property name="build.base.dir"		value="${path::get-full-path(root.dir)}/build" />
+	<property name="build.family.dir"	value="${build.base.dir}/${nant.settings.currentframework}" />
+	<property name="build.dir" 			value="${path::get-full-path(path::combine(build.family.dir,project.config))}" dynamic="true" />
+	
+	<property name="project.config" value="debug" overwrite="false" />
+	
+	<property name="build.rebuild"		value="false" overwrite="false" />
+	
+	<target name="build" description="Build ${project::get-name()}" >
+		<exec program="${framework::get-framework-directory(framework::get-target-framework())}/MSBuild.exe" workingdir="${build.dir}">
+				<arg file="NHibernate.Generics\NHibernate.Generics.csproj" />
+				<arg value="/p:Configuration=${project.config}" />
+				<arg value="/p:OutputPath=bin\" />
+				<arg value="/p:TreatWarningsAsErrors=false" />
+				<arg value='/p:DefineConstants=""' />
+				<arg value='/t:Rebuild' if="${build.rebuild}" />
+			</exec>
+	</target>
+	
+	
+	
+	
+	<target name="quick" description="Speed up the build by skipping tests">
+		<property name="common.testrunner.enabled" value="false" />
+	</target>
+	
+</project>
