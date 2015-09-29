@@ -26,15 +26,9 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NHibernate.Properties;
+using NHibernate.Property;
 using NUnit.Framework;
 using System.Reflection;
-using System.Collections;
-using NHibernate.Generics;
 
 namespace NHibernate.Generics.Tests
 {
@@ -54,27 +48,35 @@ namespace NHibernate.Generics.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(PropertyNotFoundException), "Could not find field '_nothing' in class 'NHibernate.Generics.Tests.Blog'")]
         public void ExceptionWhenFieldDoesnotExists_Getter()
         {
-            new GenericAccessor().GetGetter(typeof(Blog), "Nothing");
+            string message = Assert.Throws<PropertyNotFoundException>(
+                () => new GenericAccessor().GetGetter(typeof (Blog), "Nothing")
+                ).Message;
+
+            Assert.That(message, Is.EqualTo("Could not find field '_nothing' in class 'NHibernate.Generics.Tests.Blog'"));
         }
 
         [Test]
-        [ExpectedException(typeof(PropertyNotFoundException), "Could not find field '_nothing' in class 'NHibernate.Generics.Tests.Blog'")]
         public void ExceptionWhenFieldDoesnotExists_Setter()
         {
-            new GenericAccessor().GetSetter(typeof(Blog), "Nothing");
+            string message = Assert.Throws<PropertyNotFoundException>(
+                () => new GenericAccessor().GetSetter(typeof (Blog), "Nothing")
+                ).Message;
+            Assert.That(message, Is.EqualTo("Could not find field '_nothing' in class 'NHibernate.Generics.Tests.Blog'"));
         }
 
         [Test]
-        [ExpectedException(typeof(PropertyAccessException), "could not set a field value by reflection setter of NHibernate.Generics.Tests.GenericAccessorTests+ClassWithNullEntitySet._blogs")]
         public void ExceptionWhenSettingFieldValueWhenEntityIsNull()
         {
-            ISetter setter = new GenericAccessor().GetSetter(typeof(ClassWithNullEntitySet), "Blogs");
-            setter.Set(new ClassWithNullEntitySet(), null);
+            string message = Assert.Throws<PropertyAccessException>(() =>
+            {
+                var setter = new GenericAccessor().GetSetter(typeof (ClassWithNullEntitySet), "Blogs");
+                setter.Set(new ClassWithNullEntitySet(), null);
+            }).Message;
+            Assert.That(message, Is.EqualTo("could not set a field value by reflection setter of NHibernate.Generics.Tests.GenericAccessorTests+ClassWithNullEntitySet._blogs"));
         }
-        
+
         public class ClassWithNullEntitySet
         {
             EntitySet<Blog> _blogs = null;

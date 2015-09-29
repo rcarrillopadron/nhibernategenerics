@@ -60,8 +60,8 @@ namespace NHibernate.Generics.Tests
 			props["connection.connection_string"] =
 				string.Format(@"Data Source=|DataDirectory|\{0};Version=3;New=True", "NHibernate.Generics.Test.SQLite");
 			NHibernate.Cfg.Configuration cfg = new NHibernate.Cfg.Configuration();
-			cfg.Properties = props;
-			cfg.AddAssembly(Assembly.GetExecutingAssembly());
+            cfg.Properties = props as IDictionary;
+            cfg.AddAssembly(Assembly.GetExecutingAssembly());
 			return cfg;
 		}
 		

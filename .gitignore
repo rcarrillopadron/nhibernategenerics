@@ -1,0 +1,6 @@
+NHibernate.Generics.Tests/bin/
+NHibernate.Generics/bin/
+NHibernate.Generics/obj/
+NHibernate.Generics.Tests/obj/Debug/NHibernate.Generics.Tests.csproj.FileListAbsolute.txt
+NHibernate.Generics.Tests/obj/Release/NHibernate.Generics.Tests.csproj.FileListAbsolute.txt
+packages/

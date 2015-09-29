@@ -30,7 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NHibernate.Properties;
+using NHibernate.Property;
 using System.Reflection;
 
 namespace NHibernate.Generics
